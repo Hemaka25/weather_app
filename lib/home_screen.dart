@@ -35,10 +35,32 @@ class HomeScreen extends StatelessWidget {
               //navigation part to search screen
             },
             icon: Icon(
-              Icons.search,
+              Icons.search, //add a search icon to appbar
             ),
           ),
+          SizedBox(width: 5),
         ],
+      ),
+
+      //design the body section.
+
+      body: Padding(
+        padding: EdgeInsets.all(20),
+        child: Column(
+          //use child one single widget inside aonther parent widget
+
+          children: [
+            //childern used to have multiple widgets
+            Text(
+              "Current Location", // create the children for display text
+              style: TextStyle(
+                fontSize: 14,
+              ),
+            ),
+
+            SizedBox(height: 5),
+          ],
+        ),
       ),
     );
   }
