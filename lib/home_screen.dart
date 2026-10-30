@@ -59,6 +59,22 @@ class HomeScreen extends StatelessWidget {
             ),
 
             SizedBox(height: 5),
+
+            Row(
+              children: [
+                Icon(
+                  Icons.location_on, //add location icon
+                ),
+                SizedBox(width: 5),
+                Text(
+                  "Colombo Sri Lanka", //add text
+                ),
+              ],
+            ),
+            SizedBox(height: 5),
+            Text(
+              "Monday,November 1, 2026",
+            ),
           ],
         ),
       ),
