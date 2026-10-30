@@ -48,7 +48,7 @@ class HomeScreen extends StatelessWidget {
         padding: EdgeInsets.all(20),
         child: Column(
           //use child one single widget inside aonther parent widget
-
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             //childern used to have multiple widgets
             Text(
@@ -74,6 +74,36 @@ class HomeScreen extends StatelessWidget {
             SizedBox(height: 5),
             Text(
               "Monday,November 1, 2026",
+            ),
+
+            SizedBox(height: 5),
+
+            // creating main widget part (show weather details)
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.all(25),
+              child: Column(
+                children: [
+                  Text(
+                    "Current Weather", //using full layout as column and then use rows and columns seperately.
+                  ),
+                  SizedBox(height: 12),
+                  Icon(
+                    Icons.cloud_queue,
+                  ),
+                  SizedBox(height: 12),
+                  Text(
+                    "28 C",
+                  ),
+                  Text(
+                    "Partialy Cloudy",
+                  ),
+                  SizedBox(height: 12),
+                  Text(
+                    "Feels like 30 c",
+                  ),
+                ],
+              ),
             ),
           ],
         ),
