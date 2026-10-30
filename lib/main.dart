@@ -12,7 +12,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
+      home:
+          HomeScreen(), // called the HomeScreen function in home screen.dart file.
     );
   }
 }
