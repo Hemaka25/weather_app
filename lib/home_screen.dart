@@ -55,6 +55,7 @@ class HomeScreen extends StatelessWidget {
               "Current Location", // create the children for display text
               style: TextStyle(
                 fontSize: 14,
+                color: const Color.fromARGB(255, 255, 250, 250),
               ),
             ),
 
@@ -63,25 +64,37 @@ class HomeScreen extends StatelessWidget {
             Row(
               children: [
                 Icon(
-                  Icons.location_on, //add location icon
+                  Icons.location_on,
+                  color: const Color.fromARGB(
+                      255, 255, 250, 250), //add location icon
                 ),
                 SizedBox(width: 5),
                 Text(
-                  "Colombo Sri Lanka", //add text
+                  "Colombo Sri Lanka",
+                  style: TextStyle(
+                    color: const Color.fromARGB(255, 255, 250, 250),
+                  ),
                 ),
               ],
             ),
             SizedBox(height: 5),
             Text(
               "Monday,November 1, 2026",
+              style: TextStyle(
+                color: const Color.fromARGB(255, 255, 250, 250),
+              ),
             ),
 
-            SizedBox(height: 5),
+            SizedBox(height: 12),
 
             // creating main widget part (show weather details)
             Container(
               width: double.infinity,
               padding: EdgeInsets.all(25),
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 139, 230, 232),
+                borderRadius: BorderRadius.circular(25),
+              ),
               child: Column(
                 children: [
                   Text(
@@ -112,37 +125,39 @@ class HomeScreen extends StatelessWidget {
                       // for create humidity
                       Expanded(
                         child: Container(
-                            //created container inside the row widget.all the cards inside that row widget.
-                            padding: EdgeInsets.all(
-                                18), //every card contains its own children under one child as column.
-                            decoration: BoxDecoration(
-                              color: const Color.fromARGB(255, 231, 70, 70),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Icon(
-                                  Icons.water_drop,
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Text(
-                                  "Humidity", //these are for create all widgets for humidity card
-                                ),
-                                SizedBox(
-                                  //every card use expanded key word it uses to keep cards share the available horizontal space equally.
-                                  height: 10,
-                                ),
-                                Text(
-                                  "75%",
-                                ),
-                                Text(
-                                  "Air moisture",
-                                ),
-                              ],
-                            )),
+                          //created container inside the row widget.all the cards inside that row widget.
+                          padding: EdgeInsets.all(
+                              18), //every card contains its own children under one child as column.
+
+                          decoration: BoxDecoration(
+                            color: const Color.fromARGB(255, 236, 233, 233),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Icon(
+                                Icons.water_drop,
+                              ),
+                              ////SizedBox(
+                              //height: 10,
+                              //),
+                              Text(
+                                "Humidity", //these are for create all widgets for humidity card
+                              ),
+                              SizedBox(
+                                //every card use expanded key word it uses to keep cards share the available horizontal space equally.
+                                height: 10,
+                              ),
+                              Text(
+                                "75%",
+                              ),
+                              Text(
+                                "Air moisture",
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
 
                       SizedBox(width: 15),
@@ -154,7 +169,7 @@ class HomeScreen extends StatelessWidget {
                         child: Container(
                           padding: const EdgeInsets.all(18),
                           decoration: BoxDecoration(
-                            color: const Color.fromARGB(255, 232, 88, 88),
+                            color: const Color.fromARGB(255, 244, 239, 239),
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: Column(
@@ -185,6 +200,8 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
+
+      backgroundColor: const Color.fromARGB(255, 98, 161, 199),
     );
   }
 }
