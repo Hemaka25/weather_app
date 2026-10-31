@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'search_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -33,6 +34,15 @@ class HomeScreen extends StatelessWidget {
           IconButton(
             onPressed: () {
               //navigation part to search screen
+              //Navigator.push() opens another screen.
+              Navigator.push(
+                context,
+                //MaterialPageRoute() define the new screen.
+                MaterialPageRoute(
+                  builder: (context) =>
+                      const SearchScreen(), //SearchScreen() creates the new screen to display searching.
+                ),
+              );
             },
             icon: Icon(
               Icons.search, //add a search icon to appbar
