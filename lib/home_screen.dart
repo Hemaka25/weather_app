@@ -102,6 +102,68 @@ class HomeScreen extends StatelessWidget {
                   Text(
                     "Feels like 30 c",
                   ),
+
+                  //create the other weather details using cards
+
+                  SizedBox(height: 20),
+
+                  Row(
+                    children: [
+                      // for create humidity
+                      Expanded(
+                        child: Container(
+                            padding: EdgeInsets.all(18),
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 231, 70, 70),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Icon(
+                                  Icons.water_drop,
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  "Humidity",
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  "75%",
+                                ),
+                                Text(
+                                  "Air moisture",
+                                ),
+                              ],
+                            )),
+                      ),
+
+                      SizedBox(width: 15),
+                      //for create wind speed card
+
+                      Expanded(
+                        child: Container(
+                          padding: const EdgeInsets.all(18),
+                          decoration: BoxDecoration(
+                            color: const Color.fromARGB(255, 232, 88, 88),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Icon(
+                                Icons.air,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
