@@ -112,7 +112,9 @@ class HomeScreen extends StatelessWidget {
                       // for create humidity
                       Expanded(
                         child: Container(
-                            padding: EdgeInsets.all(18),
+                            //created container inside the row widget.all the cards inside that row widget.
+                            padding: EdgeInsets.all(
+                                18), //every card contains its own children under one child as column.
                             decoration: BoxDecoration(
                               color: const Color.fromARGB(255, 231, 70, 70),
                               borderRadius: BorderRadius.circular(20),
@@ -127,9 +129,10 @@ class HomeScreen extends StatelessWidget {
                                   height: 10,
                                 ),
                                 Text(
-                                  "Humidity",
+                                  "Humidity", //these are for create all widgets for humidity card
                                 ),
                                 SizedBox(
+                                  //every card use expanded key word it uses to keep cards share the available horizontal space equally.
                                   height: 10,
                                 ),
                                 Text(
@@ -143,9 +146,11 @@ class HomeScreen extends StatelessWidget {
                       ),
 
                       SizedBox(width: 15),
+
                       //for create wind speed card
 
                       Expanded(
+                        // next expanded
                         child: Container(
                           padding: const EdgeInsets.all(18),
                           decoration: BoxDecoration(
@@ -157,6 +162,16 @@ class HomeScreen extends StatelessWidget {
                             children: [
                               Icon(
                                 Icons.air,
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                "Wind speed",
+                              ),
+                              Text("12 km/h"),
+                              Text(
+                                "current wind",
                               ),
                             ],
                           ),
