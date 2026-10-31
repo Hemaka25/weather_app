@@ -35,6 +35,7 @@ class HomeScreen extends StatelessWidget {
             onPressed: () {
               //navigation part to search screen
               //Navigator.push() opens another screen.
+              //backbutton is automatically appear with Navigator.push()
               Navigator.push(
                 context,
                 //MaterialPageRoute() define the new screen.
