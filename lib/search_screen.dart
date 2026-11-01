@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'weather_screen.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -84,7 +85,12 @@ class _SearchScreenState extends State<SearchScreen> {
                     );
                   } else {
                     // Display the entered city in debug console
-                    print("Searching for: $city");
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => WeatherScreen(city: city),
+                      ),
+                    );
                   }
                 },
                 child: Text("Search"),

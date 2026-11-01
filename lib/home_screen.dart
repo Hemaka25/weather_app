@@ -1,11 +1,44 @@
 import 'package:flutter/material.dart';
 import 'search_screen.dart';
+import 'weather_service.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final now = DateTime.now();
+
+    final days = [
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+      'Sunday'
+    ];
+
+    final months = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December'
+    ];
+
+    final currentDate =
+        "${days[now.weekday - 1]}, ${months[now.month - 1]} ${now.day}, ${now.year}";
+
+    final currentTime = TimeOfDay.fromDateTime(now).format(context);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 149, 241,
@@ -74,171 +107,285 @@ class HomeScreen extends StatelessWidget {
 
               SizedBox(height: 5),
 
-              Row(
-                children: [
-                  Icon(
-                    Icons.location_on,
-                    color: const Color.fromARGB(
-                        255, 255, 250, 250), //add location icon
-                  ),
-                  SizedBox(width: 5),
-                  Text(
-                    "Colombo Sri Lanka",
-                    style: TextStyle(
-                      color: const Color.fromARGB(255, 255, 250, 250),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 5),
-              Text(
-                "Monday,November 1, 2026",
-                style: TextStyle(
-                  color: const Color.fromARGB(255, 255, 250, 250),
-                ),
-              ),
+              FutureBuilder<Map<String, dynamic>>(
+                future: WeatherService().getWeather('Colombo'),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
 
-              SizedBox(height: 12),
+                  if (snapshot.hasError || !snapshot.hasData) {
+                    return Text(
+                      "Unable to load weather",
+                      style: TextStyle(color: Colors.white),
+                    );
+                  }
 
-              // creating main widget part (show weather details)
-              Container(
-                width: double.infinity,
-                padding: EdgeInsets.all(25),
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 139, 230, 232),
-                  borderRadius: BorderRadius.circular(25),
-                ),
-                child: Column(
-                  children: [
-                    Text(
-                      "Current Weather", //using full layout as column and then use rows and columns seperately.
-                    ),
-                    SizedBox(height: 12),
-                    Icon(
-                      Icons.cloud_queue,
-                    ),
-                    SizedBox(height: 12),
-                    Text(
-                      "28 C",
-                    ),
-                    Text(
-                      "Partialy Cloudy",
-                    ),
-                    SizedBox(height: 12),
-                    Text(
-                      "Feels like 30 c",
-                    ),
+                  final weather = snapshot.data!;
 
-                    //create the other weather details using cards
+                  final cityName = weather['name'];
+                  final country = weather['sys']['country'];
 
-                    SizedBox(height: 20),
+                  final temperature =
+                      (weather['main']['temp'] as num).toDouble();
 
-                    Row(
-                      children: [
-                        // for create humidity
-                        Expanded(
-                          child: Container(
-                            //created container inside the row widget.all the cards inside that row widget.
-                            padding: EdgeInsets.all(
-                                18), //every card contains its own children under one child as column.
+                  final feelsLike =
+                      (weather['main']['feels_like'] as num).toDouble();
 
-                            decoration: BoxDecoration(
-                              color: const Color.fromARGB(255, 236, 233, 233),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Icon(
-                                  Icons.water_drop,
-                                ),
-                                ////SizedBox(
-                                //height: 10,
-                                //),
-                                Text(
-                                  "Humidity", //these are for create all widgets for humidity card
-                                ),
-                                SizedBox(
-                                  //every card use expanded key word it uses to keep cards share the available horizontal space equally.
-                                  height: 10,
-                                ),
-                                Text(
-                                  "75%",
-                                ),
-                                Text(
-                                  "Air moisture",
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
+                  final humidity = weather['main']['humidity'];
 
-                        SizedBox(width: 15),
+                  // Convert wind speed from m/s to km/h
+                  final windSpeed =
+                      (weather['wind']['speed'] as num).toDouble() * 3.6;
 
-                        //for create wind speed card
+                  final condition = weather['weather'][0]['description'];
 
-                        Expanded(
-                          // next expanded
-                          child: Container(
-                            padding: EdgeInsets.all(18),
-                            decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 244, 239, 239),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Icon(
-                                  Icons.air,
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Text(
-                                  "Wind speed",
-                                ),
-                                Text("12 km/h"),
-                                Text(
-                                  "current wind",
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                  final weatherIcon = weather['weather'][0]['icon'];
 
-                    SizedBox(
-                      height: 20,
-                    ),
-
-                    //create the hourly forcast section with cards
-
-                    Text(
-                      "Hourly Forecast",
-                      style: TextStyle(
-                        fontSize: 15,
-                      ),
-                    ),
-
-                    SizedBox(height: 15),
-
-                    //cards
-                    SizedBox(
-                      height: 140,
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
                         children: [
-                          hourlyCard("Now", Icons.wb_sunny, "28°C"),
-                          hourlyCard("12 PM", Icons.cloud, "30°C"),
-                          hourlyCard("1 PM", Icons.cloud, "29°C"),
-                          hourlyCard("2 PM", Icons.grain, "27°C"),
-                          hourlyCard("3 PM", Icons.wb_cloudy, "26°C"),
+                          Icon(
+                            Icons.location_on,
+                            color: const Color.fromARGB(
+                                255, 255, 250, 250), //add location icon
+                          ),
+                          SizedBox(width: 5),
+                          Text(
+                            "$cityName, $country",
+                            style: TextStyle(
+                              color: const Color.fromARGB(255, 255, 250, 250),
+                            ),
+                          ),
                         ],
                       ),
-                    ),
-                  ],
-                ),
+                      SizedBox(height: 5),
+                      Text(
+                        "$currentDate  |  $currentTime",
+                        style: TextStyle(
+                          color: const Color.fromARGB(255, 255, 250, 250),
+                        ),
+                      ),
+
+                      SizedBox(height: 12),
+
+                      // creating main widget part (show weather details)
+                      Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.all(25),
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 139, 230, 232),
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        child: Column(
+                          children: [
+                            Text(
+                              "Current Weather", //using full layout as column and then use rows and columns seperately.
+                            ),
+                            SizedBox(height: 12),
+
+                            Image.network(
+                              'https://openweathermap.org/img/wn/${weatherIcon}@2x.png',
+                              width: 100,
+                              height: 100,
+                              errorBuilder: (context, error, stackTrace) {
+                                return Icon(Icons.cloud_queue, size: 70);
+                              },
+                            ),
+                            SizedBox(height: 12),
+                            Text(
+                              "${temperature.toStringAsFixed(1)}°C",
+                            ),
+                            Text(
+                              condition.toString().isNotEmpty
+                                  ? condition.toString()[0].toUpperCase() +
+                                      condition.toString().substring(1)
+                                  : "Unknown",
+                            ),
+                            SizedBox(height: 12),
+                            Text(
+                              "Feels like ${feelsLike.toStringAsFixed(1)}°C",
+                            ),
+
+                            //create the other weather details using cards
+
+                            SizedBox(height: 20),
+
+                            Row(
+                              children: [
+                                // for create humidity
+                                Expanded(
+                                  child: Container(
+                                    //created container inside the row widget.all the cards inside that row widget.
+                                    padding: EdgeInsets.all(
+                                        18), //every card contains its own children under one child as column.
+
+                                    decoration: BoxDecoration(
+                                      color: const Color.fromARGB(
+                                          255, 236, 233, 233),
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Icon(
+                                          Icons.water_drop,
+                                        ),
+                                        ////SizedBox(
+                                        //height: 10,
+                                        //),
+                                        Text(
+                                          "Humidity", //these are for create all widgets for humidity card
+                                        ),
+                                        SizedBox(
+                                          //every card use expanded key word it uses to keep cards share the available horizontal space equally.
+                                          height: 10,
+                                        ),
+                                        Text(
+                                          "$humidity%",
+                                        ),
+                                        Text(
+                                          "Air moisture",
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+
+                                SizedBox(width: 15),
+
+                                //for create wind speed card
+
+                                Expanded(
+                                  // next expanded
+                                  child: Container(
+                                    padding: EdgeInsets.all(18),
+                                    decoration: BoxDecoration(
+                                      color: Color.fromARGB(255, 244, 239, 239),
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Icon(
+                                          Icons.air,
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text(
+                                          "Wind speed",
+                                        ),
+                                        Text(
+                                            "${windSpeed.toStringAsFixed(1)} km/h"),
+                                        Text(
+                                          "current wind",
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+
+                            SizedBox(
+                              height: 20,
+                            ),
+
+                            //create the hourly forcast section with cards
+
+                            Text(
+                              "Hourly Forecast",
+                              style: TextStyle(
+                                fontSize: 15,
+                              ),
+                            ),
+
+                            SizedBox(height: 15),
+
+                            //cards
+                            SizedBox(
+                              height: 140,
+                              child: FutureBuilder<List<dynamic>>(
+                                future: WeatherService().getForecast('Colombo'),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  }
+
+                                  if (snapshot.hasError || !snapshot.hasData) {
+                                    return Center(
+                                      child: Text("Unable to load forecast"),
+                                    );
+                                  }
+
+                                  final forecastList = snapshot.data!;
+
+                                  return ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: 8,
+                                    itemBuilder: (context, index) {
+                                      final forecast = forecastList[index];
+
+                                      final time =
+                                          DateTime.parse(forecast['dt_txt']);
+
+                                      final temperature =
+                                          (forecast['main']['temp'] as num)
+                                              .toDouble();
+
+                                      final icon =
+                                          forecast['weather'][0]['icon'];
+
+                                      return Container(
+                                        width: 90,
+                                        margin: EdgeInsets.only(right: 12),
+                                        padding: EdgeInsets.all(12),
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                        ),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            Text(
+                                              TimeOfDay.fromDateTime(time)
+                                                  .format(context),
+                                            ),
+                                            Image.network(
+                                              'https://openweathermap.org/img/wn/${icon}.png',
+                                              width: 35,
+                                              height: 35,
+                                            ),
+                                            Text(
+                                              "${temperature.toStringAsFixed(1)}°C",
+                                              style: TextStyle(fontSize: 17),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  );
+                },
               ),
             ],
           ),
